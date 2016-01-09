@@ -11,11 +11,6 @@ error_reporting(E_ALL | E_STRICT);
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-<!---
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
-<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
----->
 <!-- Kom ihåg metainformation från databasen  -->
 <title>Chiles in Stockholm - Chile Pepper Database</title>
 <!-- Title ändras sen beroende på pepparsort...   -->
@@ -42,14 +37,14 @@ switch($action) {
 			
 		$title = getVarietynameTitle($id);
 
-		print "<div data-role=\"page\" id=\"var1\" data-theme=\"E\">\n";
-		print "<div data-role=\"header\" data-theme=\"E\"><!-- /header -->\n";
+		print "<div data-role=\"page\" id=\"var1\" data-theme=\"e\">\n";
+		print "<div data-role=\"header\" data-theme=\"e\"><!-- /header -->\n";
 		print "<h1>" . getNameAndURLtoSpecies($id) . "</h1>\n";   
 		print "<a href=\"index.php\" rel=\"external\" data-role=\"button\" data-icon=\"home\"  data-iconpos=\"notext\" data-direction=\"reverse\">Home</a>\n";
 		print "<a href=\"peppers.php\" rel=\"external\" data-role=\"button\" data-icon=\"back\" data-iconpos=\"notext\" data-rel=\"dialog\" data-transition=\"fade\">Back</a>\n";
 		print "</div\n>";
 
-		print "<div data-role=\"content\">\n";
+		print "<div data-role=\"content\" data-theme=\"E\">\n";
 		print "<script type=\"text/javascript\">";
 		print "	document.title = " . "\"" . $title . "\";";
 		print "</script>";
@@ -93,10 +88,10 @@ switch($action) {
 			$species = "annuum";
 			}
 
-		print "<div data-role=\"page\" id=\"varietiesinspecies\"  data-theme=\"E\"\n>";
+		print "<div data-role=\"page\" id=\"varietiesinspecies\"  data-theme=\"e\"\n>";
 		printdataroleheader($genus . " " . $species);
-		print "<div data-role=\"content\" data-theme=\"E\">\n";
-		print "<ul data-role=\"listview\" data-mini data-theme=\"E\" data-count-theme=\"b\"  data-filter=\"true\">\n";
+		print "<div data-role=\"content\" data-theme=\"e\">\n";
+		print "<ul data-role=\"listview\" data-mini data-theme=\"e\" data-count-theme=\"b\"  data-filter=\"true\">\n";
 
 		$conn = connecttodb();	
 		$qry = "select * from varieties where genus = \"$genus\" and species = \"$species\" order by commonname;"; 
@@ -110,7 +105,6 @@ switch($action) {
 				$id = $row['varietyid'];
 				$commonname = $row['commonname'];
 				printpepperlistitem($id, $commonname);
-//			print "<li class=\"ui-li-has-thumb\"><img src=\"" . getthumbnailpicture($id) . "  \" style=\"max-width:100px; max-height:100px;\"><a href=\"peppers.php?action=variety&id=" . $id . " \"  rel=\"external\">&nbsp;&nbsp;"  . $commonname . " <span class=ui-li-count>" . getnumberofpictures($id) . "</span></a></li>\n";
 				}
 			} catch(PDOException $e) {
 			    echo "Error: " . $e->getMessage();
@@ -140,8 +134,6 @@ switch($action) {
 				$id = $row['varietyid'];
 				$commonname = $row['commonname'];
 				printpepperlistitem($id, $commonname);
-				//print "<li><a href=\"peppers.php?action=variety&id=" . $id . " \"  rel=\"external\">"  . $commonname . " <span class=ui-li-count>" . getnumberofpictures($id) . "</span><img src=\"" . getthumbnailpicture($id) . "  \"></a></li>\n";
-
 				}
 			} catch(PDOException $e) {
 			    echo "Error: " . $e->getMessage();
@@ -185,11 +177,8 @@ switch($action) {
 				while($row = array_shift($result)) {
 					$cn1 = $row['commonname'];
 					printpepperlistitem($id, $cn1);
-					//print "<li><a href=\"peppers.php?action=variety&id=" . $id . " \"  rel=\"external\">"  . $cn1 . " <span class=ui-li-count>" . getnumberofpictures($id) . "</span><img src=\"" . getthumbnailpicture($id) . "  \"></a></li>\n";
+					}
 				}
-			}
-
-
 			} catch(PDOException $e) {
 			    echo "Error: " . $e->getMessage();
 			}
@@ -207,8 +196,8 @@ switch($action) {
 		print "<h1>Chile Pepper Database</h1>\n";   
 		print "</div>\n";
 
-		print "<div data-role=\"content\" data-theme=\"e\">\n";
-		print "<ul data-role=\"listview\" data-mini data-theme=\"c\" data-count-theme=\"e\">\n";	//  data-filter=\"true\"
+		print "<div data-role=\"content\" data-theme=\"E\">\n";
+		print "<ul data-role=\"listview\" data-mini data-theme=\"c\" data-count-theme=\"c\">\n";	//  data-filter=\"true\"
 
 		$conn = connecttodb();
 		$qry = "select distinct genus, species from varieties order by genus;"; 
@@ -240,7 +229,7 @@ switch($action) {
 
 
 function printdataroleheader($h1) {
-		print "<div data-role=\"header\" data-theme=\"B\"><!-- /header -->\n";
+		print "<div data-role=\"header\" data-theme=\"e\"><!-- /header -->\n";
 		print "<h1>" . $h1 . "</h1>\n";   
 		print "<a href=\"index.php\" rel=\"external\" data-role=\"button\" data-icon=\"home\"  data-iconpos=\"notext\" data-direction=\"reverse\">Home</a>\n";
 		print "<a href=\"peppers.php\" rel=\"external\" data-role=\"button\" data-icon=\"back\" data-iconpos=\"notext\" data-rel=\"dialog\" data-transition=\"fade\">Back</a>\n";
