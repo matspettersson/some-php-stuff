@@ -36,10 +36,10 @@
 </td>
 <td><!--- Randompicture --->
 <?php
-$servername = "mysql-server-name";
-$username = "username";
-$password = "password";
-$dbname = "dbname";
+$servername = mysql-server-name;
+$username = username;
+$password = password;
+$dbname = dbname;
 
 $conn = NULL;
 	

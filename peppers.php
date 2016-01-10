@@ -1,8 +1,8 @@
 <?php session_start();
 error_reporting(E_ALL | E_STRICT);
 ?>
-<html>
 <!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +19,7 @@ error_reporting(E_ALL | E_STRICT);
 <body>
 
 <?php
+$datatheme = "\"e\"";
 /*
 *** Check action ***
 */
@@ -37,14 +38,14 @@ switch($action) {
 			
 		$title = getVarietynameTitle($id);
 
-		print "<div data-role=\"page\" id=\"var1\" data-theme=\"e\">\n";
-		print "<div data-role=\"header\" data-theme=\"e\"><!-- /header -->\n";
+		print "<div data-role=\"page\" id=\"var1\" data-theme=$datatheme>\n";
+		print "<div data-role=\"header\" data-theme=$datatheme><!-- /header -->\n";
 		print "<h1>" . getNameAndURLtoSpecies($id) . "</h1>\n";   
 		print "<a href=\"index.php\" rel=\"external\" data-role=\"button\" data-icon=\"home\"  data-iconpos=\"notext\" data-direction=\"reverse\">Home</a>\n";
 		print "<a href=\"peppers.php\" rel=\"external\" data-role=\"button\" data-icon=\"back\" data-iconpos=\"notext\" data-rel=\"dialog\" data-transition=\"fade\">Back</a>\n";
 		print "</div\n>";
 
-		print "<div data-role=\"content\" data-theme=\"E\">\n";
+		print "<div data-role=\"content\" data-theme=$datatheme>\n";
 		print "<script type=\"text/javascript\">";
 		print "	document.title = " . "\"" . $title . "\";";
 		print "</script>";
@@ -88,10 +89,11 @@ switch($action) {
 			$species = "annuum";
 			}
 
-		print "<div data-role=\"page\" id=\"varietiesinspecies\"  data-theme=\"e\"\n>";
+		print "<div data-role=\"page\" id=\"varietiesinspecies\"  data-theme=$datatheme\n>";
 		printdataroleheader($genus . " " . $species);
-		print "<div data-role=\"content\" data-theme=\"e\">\n";
-		print "<ul data-role=\"listview\" data-mini data-theme=\"e\" data-count-theme=\"b\"  data-filter=\"true\">\n";
+		print "<div data-role=\"content\" data-theme=$datatheme>\n";
+		print gettextforspecies($species) . "\n";
+		print "<ul data-role=\"listview\" data-mini data-theme=$datatheme data-count-theme=\"b\"  data-filter=\"true\">\n";
 
 		$conn = connecttodb();	
 		$qry = "select * from varieties where genus = \"$genus\" and species = \"$species\" order by commonname;"; 
@@ -117,10 +119,11 @@ switch($action) {
 
 	
 	case "allvarieties":
-		print "<div data-role=\"page\" id=\"allvarieties\"  data-theme=\"E\">";
+		print "<div data-role=\"page\" id=\"allvarieties\"  data-theme=$datatheme>";
 		printdataroleheader("All varieties");
-		print "<div data-role=\"content\" data-theme=\"E\">\n";
-		print "<ul data-role=\"listview\" data-mini data-theme=\"E\"  data-filter=\"true\" >";
+		print "<div data-role=\"content\" data-theme=$datatheme>\n";
+		print gettextforspecies("allvarieties") . "\n";
+		print "<ul data-role=\"listview\" data-mini data-theme=$datatheme data-filter=\"true\" >";
 
 		$conn = connecttodb();	
 		$qry = "select * from varieties order by commonname;"; 
@@ -145,9 +148,10 @@ switch($action) {
 	break;
 
 	case "latest":
-		print "<div data-role=\"page\" id=\"latest\"  data-theme=\"E\">";
+		print "<div data-role=\"page\" id=\"latest\"  data-theme=$datatheme>";
 		printdataroleheader("Latest pictures");
-		print "<div data-role=\"content\" data-theme=\"E\">\n";
+		print "<div data-role=\"content\" data-theme=$datatheme>\n";
+		print gettextforspecies("latest") . "\n";
 
 		$conn = connecttodb();	
 
@@ -161,7 +165,7 @@ switch($action) {
 				$dt = $row[0];
 				}
 
-			print "<ul data-role=\"listview\" data-mini data-theme=\"E\"   data-filter=\"true\">";
+			print "<ul data-role=\"listview\" data-mini data-theme=$datatheme  data-filter=\"true\">";
 			$qry = "select distinct varietyid from pictures where picdate = \"" . $dt . "\";"; 
 			$stmt = $conn->prepare($qry);
 			$stmt->execute();
@@ -190,14 +194,14 @@ switch($action) {
 	
 	
 	default:
-		print "<div data-role=\"page\" id=\"pepperhome\" data-theme=\"e\" data-title=\"Chile Pepper Database\">\n";
-		print "<div data-role=\"header\" data-theme=\"e\"><!-- /header -->\n";
+		print "<div data-role=\"page\" id=\"pepperhome\" data-theme=$datatheme data-title=\"Chile Pepper Database\">\n";
+		print "<div data-role=\"header\" data-theme=$datatheme><!-- /header -->\n";
 		print "<a href=\"index.php\" rel=\"external\" data-role=\"button\" data-icon=\"home\">Home</a>\n";
 		print "<h1>Chile Pepper Database</h1>\n";   
 		print "</div>\n";
 
-		print "<div data-role=\"content\" data-theme=\"E\">\n";
-		print "<ul data-role=\"listview\" data-mini data-theme=\"c\" data-count-theme=\"c\">\n";	//  data-filter=\"true\"
+		print "<div data-role=\"content\" data-theme=$datatheme>\n";
+		print "<ul data-role=\"listview\" data-mini data-theme=$datatheme data-count-theme=\"c\">\n";	//  data-filter=\"true\"
 
 		$conn = connecttodb();
 		$qry = "select distinct genus, species from varieties order by genus;"; 
@@ -210,16 +214,16 @@ switch($action) {
 			while($row = array_shift($result)) {
 				$genus 	 = $row['genus'];
 				$species = $row['species'];
-				print "<li><a href=\"peppers.php?action=varietiesinspecies&genus=$genus&species=$species\"  rel=\"external\" >$genus&nbsp;$species <div class=\"ui-li-count\">" . getnumberofvarieties($genus, $species) . "</div></a></li>\n";	//  class=\"ui-li-has-thumb\"
-			} 
+				print "<li><a href=\"peppers.php?action=varietiesinspecies&genus=$genus&species=$species\"  rel=\"external\" ><h2>$genus&nbsp;$species</h2>" . gettextforspecies($species) . "<div class=\"ui-li-count\">" . getnumberofvarieties($genus, $species) . "</div></a></li>\n";
+				} 
 			} catch(PDOException $e) {
 			    echo "Error: " . $e->getMessage();
 			}
 
 		$conn = NULL;
 
-		print "<li><a href=\"peppers.php?action=allvarieties\"  rel=\"external\" >All varieties<div class=ui-li-count>" . getnumberofallvarieties() . "</div></a></li>\n";	
-		print "<li><a href=\"peppers.php?action=latest\"  rel=\"external\">Latest pictures<div class=ui-li-count>" . getnumberoflatestpictures() . "</div></a></li>\n";	
+		print "<li><a href=\"peppers.php?action=allvarieties\"  rel=\"external\" ><h2>All varieties</h2>" . gettextforspecies("allvarieties") . "<div class=\"ui-li-count\">" . getnumberofallvarieties() . "</div></a></li>\n";	
+		print "<li><a href=\"peppers.php?action=latest\"  rel=\"external\"><h2>Latest pictures</h2>" . gettextforspecies("latest") . "<div class=\"ui-li-count\">" . getnumberoflatestpictures() . "</div></a></li>\n";	
 		print "</ul>";
 
 		print "</div><!-- /content -->\n";
@@ -229,7 +233,7 @@ switch($action) {
 
 
 function printdataroleheader($h1) {
-		print "<div data-role=\"header\" data-theme=\"e\"><!-- /header -->\n";
+		print "<div data-role=\"header\" data-theme=$datatheme><!-- /header -->\n";
 		print "<h1>" . $h1 . "</h1>\n";   
 		print "<a href=\"index.php\" rel=\"external\" data-role=\"button\" data-icon=\"home\"  data-iconpos=\"notext\" data-direction=\"reverse\">Home</a>\n";
 		print "<a href=\"peppers.php\" rel=\"external\" data-role=\"button\" data-icon=\"back\" data-iconpos=\"notext\" data-rel=\"dialog\" data-transition=\"fade\">Back</a>\n";
@@ -373,6 +377,33 @@ function getVarietynameTitle($id) {
 }
 
 
+function gettextforspecies($species) {
+	$retstr = "";
+
+	$conn = connecttodb();
+	$qry = "select species, description, para_order from genus_descriptions where species like \"$species\" order by para_order;"; 
+
+	try {
+		$stmt = $conn->prepare($qry);
+		$stmt->execute();
+		$result = $stmt->fetchAll();
+
+		while($row = array_shift($result)) {
+			$species = $row['species'];
+			$description = $row['description'];
+			//$para_order = $row['para_order'];
+			$retstr = $retstr . "<p>" . $description . "</p>";
+		}
+		} catch(PDOException $e) {
+		    echo "Error: " . $e->getMessage();
+		}
+
+	$conn = NULL;
+
+	return $retstr;
+}
+
+
 function fixImageFilename($filename) {
 	if(strncmp($filename, '/habanero', 9) == 0)
 		$retstr = ".." . $filename;
@@ -386,10 +417,10 @@ return $retstr;
 
 
 function connecttodb() {
-$servername = "mysql-server-name";
-$username = "username";
-$password = "password";
-$dbname = "dbname";
+$servername = mysql-server-name;
+$username = username;
+$password = password;
+$dbname = dbname;
 
 try {
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -405,7 +436,7 @@ return $conn;
 
 ?>
 
-<div data-role="footer" data-theme="D">
+<div data-role="footer" data-theme="E">
 <p></p>
 <!--WEBBOT bot="HTMLMarkup" startspan ALT="Site Meter" -->
 <script type="text/javascript" language="JavaScript">var site="s11pghabba"</script>
