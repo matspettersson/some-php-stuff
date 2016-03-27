@@ -19,7 +19,7 @@ Instead I create the string myself, and insert the PHP variable into JavaScript.
 I found it easier to create the column structure in Javascript. The Gantt library requires the following fields to work, but the last one, dependencies, is optional.
 
 		var data1 = new google.visualization.DataTable();
- 	     		data1.addColumn('string', 'Task ID');
+			data1.addColumn('string', 'Task ID');
 			data1.addColumn('string', 'Task Name');
 			data1.addColumn('string', 'Resource');
 			data1.addColumn('date',   'Start Date');
@@ -36,11 +36,11 @@ I "echo" the string into the *addRows* function:
 
 The $dataTable1 string contains the following text:
 
-		data1.addRows([ ['taskid','My task','task_resid',new Date(2016,0,01),new Date(2016,8,30), null, 0, '']
+		data1.addRows([ ['taskid','My task','task_resid',new Date(2016,0,01),new Date(2016,8,30), null, 0, ''] ]);
 
 Remember that the month number in the Javascript Date function is zero based, so I have to subtract 1 from the value in the database. I.e. new Date(2016,0,01) equals 2016-01-01.
 
 Then I draw the charts using the following code:
 
-	          var chart1 = new google.visualization.Gantt(document.getElementById('chart_1'));
-	          chart1.draw(data1, options);
+		var chart1 = new google.visualization.Gantt(document.getElementById('chart_1'));
+		chart1.draw(data1, options);
