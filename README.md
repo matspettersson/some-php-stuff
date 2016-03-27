@@ -1,10 +1,11 @@
 # some-php-stuff
-Some scripts
+Some scripts that I've created mostly for learning stuff.
+
+
 
 ## Examples with the Google Visualization API's
 
-[google-visualization] (https://developers.google.com/chart/ "Google Chart API's")
-
+Ref. [google-visualization] (https://developers.google.com/chart/ "Google Chart API's")
 
 ### db.schema
 Contains the MySQL DDL for creating the 'pipeline' table that is used in the gantt-example.php
