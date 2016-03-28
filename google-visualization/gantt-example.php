@@ -8,12 +8,12 @@ $dataTable2 = calldb("E");
 function calldb($action) {
 	$dbname = 'mats';
 	$username = 'root';
-	$password = 'mattan';
+	$password = 'mats';
 	$dbhost = "192.168.1.8";
 
 	try {
 		/* Establish the database connection */
-		$conn = new PDO("mysql:host=192.168.1.8;charset=utf8;dbname=$dbname", $username, $password);
+		$conn = new PDO("mysql:host=$dbhost;charset=utf8;dbname=$dbname", $username, $password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		$str = "select shortname, project, description, category, start, stop, percentdone, dependency from pipeline where category like \"%" . $action ."%\" order by start asc";
