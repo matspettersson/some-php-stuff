@@ -1,7 +1,8 @@
 
 --
--- Table structure for table `pipeline` (used in gantt-example.php)
+-- Table structure for table `pipeline`
 --
+
 CREATE TABLE IF NOT EXISTS `pipeline` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `shortname` varchar(10) NOT NULL,
@@ -17,15 +18,3 @@ CREATE TABLE IF NOT EXISTS `pipeline` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 
---
--- Table structure for table `varieties` (used in pie.php)
---
-CREATE TABLE IF NOT EXISTS `varieties` (
-  `varietyid` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `genus` text,
-  `species` text,
-  `subspecies` text,
-  `commonname` text,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`varietyid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
